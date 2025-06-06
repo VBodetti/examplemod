@@ -1,0 +1,29 @@
+modLoader = "javafml"
+loaderVersion = "[55,)"
+license = "MIT"
+
+[[mods]]
+modId = "examplemod"
+version = "1.0.0"
+displayName = "Mob Possession Mod"
+authors = "BoDeadly"
+description = "A mod that lets you take over mobs and utilize their abilities"
+
+# ─── This block tells Forge where to find your @Mod-annotated class ───
+[[mods.entrypoints.main]]
+value = "com.example.examplemod.ExampleMod"
+# “main” is the standard FML entry‐point name; don’t quote “entrypoints” itself.
+
+[[dependencies.examplemod]]
+modId = "forge"
+mandatory = true
+versionRange = "[55,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.examplemod]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.21,1.22)"
+ordering = "NONE"
+side = "BOTH"

@@ -1,0 +1,71 @@
+// File: build.gradle (root of your mod project)
+
+plugins {
+    // ForgeGradle 6 “platform” plugin – this provides the 'minecraft' extension
+    id 'net.minecraftforge.gradle' version '6.0.24'
+    // Standard Java support
+    id 'java'
+    // IDE integration
+    id 'eclipse'
+    id 'idea'
+    // Publishing support (optional)
+    id 'maven-publish'
+}
+
+group = project.mod_group_id
+version = project.mod_version
+archivesBaseName = project.mod_id
+
+// Target Java 21 for Minecraft 1.21.x+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+repositories {
+    // ForgeGradle automatically adds Forge Maven and Maven Central.
+}
+
+dependencies {
+    // Pull in "net.minecraftforge:forge:1.21.5-55.0.22:userdev"
+    // (Gradle substitutes ${minecraft_version} and ${forge_version} from gradle.properties)
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+}
+
+minecraft {
+    // Use Mojang’s official mappings for 1.21.5
+    mappings channel: mapping_channel, version: mapping_version
+
+    // FG6 “runs” block generates runClient / runServer / runGameTestServer tasks
+    runs {
+        client {
+            workingDirectory project.file('run')
+        }
+        server {
+            workingDirectory project.file('run')
+            args '--nogui'
+        }
+        gameTestServer {
+            workingDirectory project.file('run')
+        }
+    }
+
+    // We don’t need any re‐obfuscation during development
+    reobf = false
+    copyIdeResources = true
+}
+
+// Expand ${mod_id}, ${mod_name}, ${mod_version}, etc. in mods.toml & pack.mcmeta
+tasks.named('processResources', Copy).configure {
+    inputs.properties(
+            'mod_id'      : project.mod_id,
+            'mod_name'    : project.mod_name,
+            'mod_version' : project.mod_version,
+            'mod_authors' : project.mod_authors
+    )
+
+    filesMatching(['META-INF/mods.toml','pack.mcmeta']) {
+        expand inputs.properties as Map<String, ?>
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}

@@ -1,0 +1,11 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "up":    "examplemod:block/mob_trap_top",
+    "down":  "examplemod:block/mob_trap_bottom",
+    "north": "examplemod:block/mob_trap_front",
+    "south": "examplemod:block/mob_trap_back",
+    "east":  "examplemod:block/mob_trap_right",
+    "west":  "examplemod:block/mob_trap_left"
+  }
+}
